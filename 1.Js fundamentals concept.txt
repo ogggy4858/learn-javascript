@@ -1,0 +1,273 @@
+
+-------------------------------------------------------------------------------
+-------------------------------JavaScript fundamentals-------------------------
+-------------------------------------------------------------------------------
+1. Khai báo biến var, let, const
+2. Kiểu dữ liệu Primitive (nguyên thủy) và Reference (tham chiếu)
+3. Kiểu null và undefined
+4. Các toán tử, phép so sánh === và ==
+5. truthy / falsy
+6. ?., ??
+7. Bóc tách object, array thành các biến (destructuring)
+8. spread (bung ra) / rest (gom lại)
+9. template literal
+ 
+1. Khai báo biến bằng từ khóa var, let, const
+    var
+        - Đây là cách cũ, dùng để khai báo biến, không khuyến khích dùng ở hiện tại
+        - var có function scope, không có block scope
+        - var có thể khai báo lại được
+
+    let
+        - Khuyến khích dùng ở thời điểm hiện tại
+        - let không có function scope, có block scope
+        - let không khai báo lại được
+        - thường dùng đa số, khi giá trị của biến bị thay đổi
+        - VD
+            function let_func_scope() { let variable1 = 1; }
+            console.log(variable1); // undefined
+
+    const
+        - Khuyến khích dùng ở thời điểm hiện tại
+        - const bắt buộc gắn giá trị khi khai báo, không sửa được giá trị sau khi khai báo
+        - thường dùng khi giá trị của biến không thay đổi
+
+2. Primitive (kiểu nguyên thủy) và Reference (kiểu tham chiếu)
+    Primitive (kiểu nguyên thủy)
+        - Là các kiểu sau:
+            string
+            number
+            boolean
+            undefined
+            null
+            bigint
+            symbol
+        - VD:
+            const name = "Duc";        // string
+            const age = 30;            // number
+            const isActive = true;     // boolean
+            const x = undefined;       // undefined
+            const y = null;            // null
+            const big = 123n;          // bigint
+            const id = Symbol("id");   // symbol
+        -> Khi gán biến Primitive sang biến khác, giá trị sẽ được copy.
+
+    Reference (kiểu tham chiếu)
+        Là các kiểu sau:
+            Object
+            Array
+            Function
+        Khi gán giá trị b = a, con trỏ của biến b sẽ trỏ đến vùng nhớ của biến a trên heap
+        Dẫn đến khi sửa giá trị, sẽ sửa giá trị của cả 2 biến a và b
+
+3. Undefined và Null
+    Undefined
+        - Các TH bị undefined là:
+        + Khai báo biến nhưng chưa gán giá trị
+            let name;
+            console.log(name); // undefined
+        + Truy xuất vào property của object nhưng property đó không tồn tại
+            const user = { name: "Duc" };
+            console.log(user.age); // undefined
+        + Function kiểu void
+            function test() {}
+            const result = test();
+            console.log(result); // undefined
+        + Không truyền tham số khi gọi func
+            function hello(name) { console.log(name); }
+            hello(); // undefined
+
+    Null
+        - Có thể hiểu là một giá trị, khi khai báo biến và gán giá trị null
+
+    So sánh
+        - null == undefined 
+            -> trả về true
+        - null === undefined 
+            -> trả về false vì type của null là object, còn type của undefined là undefined
+
+4. Các toán tử cơ bản, tăng giảm
+    - Cơ bản: cộng, trừ, nhân, chia, lấy phần trăm, lũy thừa
+        10 + 5;  // 15
+        10 - 5;  // 5
+        10 * 5;  // 50
+        10 / 5;  // 2
+        10 % 3;  // 1
+        10 ** 2; // lũy thừa, 10 * 10 = 100
+
+    - Tăng giảm
+        let x = 10;
+        x++;
+        x--;
+        x += 5;
+        x -= 2;
+        x *= 3;
+
+    - Phép cộng:
+        Phép "+" vừa là cộng số, vừa là nối chuỗi
+            10 + 20;        // 30
+            "10" + "20";    // "1020"
+            "10" + 20;      // "1020"
+        Vì -, *, / không có ý nghĩa nối chuỗi nên JS cố chuyển "10" thành number, như TH bên dưới:
+            "10" - 5;       // 5
+            "10" * 2;       // 20
+            "10" / 2;       // 5
+
+    - Toán tử so sánh ==
+        Sẽ ép kiểu trước khi so sánh
+        5 == "5"; // true
+        0 == false; // true
+        1 == true; // true
+
+    - Toán thử so sánh ===
+        So sánh type rồi mới so sánh giá trị
+        5 == "5"; // false
+        0 == false; // false
+        1 == true; // false
+
+    - Tương tự với toán tử != và !==
+    - Toán tử và &&, hoặc ||, phủ định !
+
+5. Falsy và Truthy
+    - Javascript có thể chuyển nhiều giá trị thành Falsy hoặc Truthy, nói cách khác là false và true
+    Falsy
+        - Các giá trị false
+            false
+            0
+            -0
+            0n
+            ""
+            null
+            undefined
+            NaN
+        - VD
+            Boolean(0);          // false
+            Boolean("");         // false
+            Boolean(null);       // false
+            Boolean(undefined);  // false
+            Boolean(NaN);        // false
+
+    Truthy
+        - Gần như tất cả các giá trị còn lại thì là true
+            Boolean(1);         // true
+            Boolean(-10);       // true
+            Boolean("hello");   // true
+            Boolean([]);        // true -> Array rỗng và object rỗng vẫn là truthy.
+            Boolean({});        // true -> Array rỗng và object rỗng vẫn là truthy.
+            Boolean("false");   // true -> Vì chúng là string không rỗng
+            Boolean("0");       // true -> Vì chúng là string không rỗng
+
+6. Truy xuất vào propery ?. và toán tử kiểm tra - gán ??
+    ?.
+        Sử dụng để truy xuất vào các thuộc tính bên trong mà không gây lỗi trương chình
+
+    ??
+        VD: a ?? b
+        Nghĩa là nếu a === null hoặc a === undefined
+        -> Lấy giá trị b
+
+7. Destructuring
+    - Destructuring = bóc/tách giá trị từ Object hoặc Array ra thành các biến.
+    - Với object: dựa vào tên property, đặt tên biến phải trùng với tên property của object
+    - Với array: dựa vào thứ tự, sẽ tính thứ tự như thứ tự các phần tử trong mảng
+    
+    Với object
+        const user = {
+            id: 1,
+            name: "Duc",
+            age: 30
+        };
+        const { id, name, age } = user; // id = 1, name = "Duc", age = 30
+        - Nếu muốn đặt tên biến khác với tên property
+        const { id: userId, name: userName, age: userAge } = user; // userId = 1, userName = "Duc", userAge = 30
+
+    Với array
+        let a = [1, 10, 99, 100];
+        let {first, second, a, b} = a; // first = 1, second = 10, a = 99, b = 100
+        - Nếu muốn bỏ qua phần tử
+        let {first, second, , b} = a; // first = 1, second = 10, b = 100
+
+    Tương tự với truyền tham số vào function
+        func(user);
+        - Có thể viết thành
+        func({id, name, age});
+
+    VD về bài toán hoán đổi giá trị 2 biến
+        let a = 10
+        let b = 20
+        [a, b] = [b, a]
+
+8. spread (bung ra) / rest (gom lại)
+    spread (bung ra)
+        In ra màn hình console
+            const numbers = [1, 2, 3];
+            console.log(...numbers);
+        Tạo một mảng mới
+            const numbers = [1, 2, 3];
+            const result = [0, ...numbers, 4]; // 0, 1, 2, 3, 4
+        Copy mảng
+            const a = [1, 2, 3];
+            const b = [...a];
+            -> TH này chỉ copy giá trị, không trỏ đến heap của mảng a, dẫn đến khi sửa bảng b, mảng a không bị thay đổi
+            -> Khác với const b = a; TH này sẽ trỏ đến heap của mảng a
+            
+        Merge mảng
+            const a = [1, 2];
+            const b = [3, 4];
+            const result = [...a, ...b]; // 1, 2, 3, 4
+            const result = [0, ...a, 100, ...b, 200]; // 1, 2, 3, 100, 3, 4, 200
+        Spread với object
+            const user = { name: "Duc", age: 30};
+            const newUser = { ...user };
+            -> Tương đương với copy mảng, chỉ copy giá trị, chứ không trỏ đến heap của object user
+        
+        Nhưng với TH object lồng object (Spread chỉ shallow copy)
+            Tuy object cha được copy là một object mới hoàn toàn, nhưng
+            object con bên trong sẽ không copy giá trị, mà chỉ trỏ lại con trỏ
+        Copy rồi thay đổi property
+            const user = { id: 1, name: "Duc", age: 30 };
+            const updatedUser = { ...user, age: 31 }; // id = 1, name = "Duc", age = 31
+
+    rest (gom lại)
+        Gom các tham số truyền vào thành một mảng
+            function sum(...numbers) {
+                console.log(numbers);
+            }
+            sum(10, 20, 30); // [10, 20, 30]
+        Vì là một mảng, có thể sử dụng vòng lặp
+            function sum(...numbers) {
+                let total = 0;
+                for (const number of numbers) {
+                    total += number;
+                }
+                return total;
+            }
+            sum(10, 20, 30);
+            // 60
+        Kết hợp cùng với các parameter khác
+            function test(first, second, ...others) {
+                console.log(first);
+                console.log(second);
+                console.log(others);
+            }
+            test(10, 20, 30, 40, 50);
+            Kết quả:
+                first  = 10
+                second = 20
+                others = [30, 40, 50]
+            -> Vì Rest lấy phần còn lại, nên nó phải nằm cuối
+
+    Kết hợp Rest và Destructuring
+        TH với mảng
+            const numbers = [10, 20, 30, 40];
+            const [first, second, ...others] = numbers; // first = 10, second = 20, others = [30, 40]
+            first và second sẽ là một số kiểu int, còn others sẽ là một mảng
+        TH với object
+            const user = { id: 1, name: "Duc", age: 30, city: "Hanoi" };
+            const { id, name, ...others } = user; // id = 1, name  = "Duc", others = {age: 30, city: "Hanoi"}
+            id và name sẽ là một giá trị kiểu string, còn others sẽ là một object
+
+9. Template Literal
+    - Các viết string bằng dấu backtick ``
+    const name = "Duc";
+    const message = `Hello ${name}`; // Hello Duc
