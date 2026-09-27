@@ -1,0 +1,92 @@
+- Khai báo object:
+    + Kiểu dữ liệu của thuộc tính có thể là bất cứ kiểu gì, kể cả object và array và function
+    const user = {
+        id: 1,
+        name: "Duc",
+        age: 30,
+        active: true,
+        address: null,
+        roles: ["admin", "user"],
+        profile: {
+            avatar: "abc.png"
+        }
+    };
+
+- Một cách khai báo object ngắn gọn khác
+    const name = 'Duc';
+    const id = 1;
+    const user = {
+        id,
+        name
+    };
+
+- Các thao tác với thuộc tính
+    Truy xuất
+        user.name
+        hoặc user["name"]
+
+    Sửa giá trị
+        user.name = "An";
+    
+    Thêm thuộc tính
+        user.email = "an@gmail.com";
+        có thể dùng ["..."] để thêm thuộc tính động
+
+    Xóa thuộc tính
+        delete user.email;
+
+- Tên thuộc tính có ký tự đặc biệt như là - thì cần phải dùng []
+
+- Tạo thuộc tính với key động
+    const fieldName = 'name';
+    const obj = {
+        id: 1,
+        [fieldName]: 'Duc'
+    }
+
+    // obj = {id: 1, name: Duc}
+
+- Kiểm tra thuộc tính có tồn tại
+    Object.hasOwn(user, "age");
+
+- Object.keys()
+    const user = {
+        name: "Duc",
+        age: 30,
+        active: true
+    };
+
+    const keys = Object.keys(user);
+
+    Trả về
+    [
+        "name",
+        "age",
+        "active"
+    ]
+    
+- Object.values()
+    Object.values(user);
+    Trả về
+    [
+        "Duc",
+        30,
+        true
+    ]
+
+- Object.entries()
+    Object.entries(user);
+    Trả về
+    [
+        ["name", "Duc"],
+        ["age", 30],
+        ["active", true]
+    ]
+
+    + Ứng dung với còng for
+    for (const [key, value] of Object.entries(user)) {
+        console.log(key, value);
+    }
+
+- Destructuring, Spread, Rest
+    Đã học tại 1. Js fundamentals concept.txt

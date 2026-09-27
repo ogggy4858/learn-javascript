@@ -1,0 +1,127 @@
+---------------------------------------------------------------------------------------------------------
+-----------------------------------------Lộ trình ôn JavaScript------------------------------------------
+---------------------------------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------------------------------------
+1. JavaScript Fundamentals
+- var, let, const
+- Primitive / Reference
+- null, undefined
+- toán tử, === / ==
+- truthy / falsy
+- ?., ??
+- destructuring
+- spread / rest
+- template literal
+
+---------------------------------------------------------------------------------------------------------
+2. Function — phần cực kỳ quan trọng
+- Function Declaration / Expression
+- Arrow Function
+- parameter / default parameter
+- callback
+- scope
+- lexical scope
+- closure
+- hoisting
+- this
+- call, apply, bind
+
+---------------------------------------------------------------------------------------------------------
+3. Object & JavaScript Object Model
+- Object
+- property / method
+- destructuring
+- getter / setter
+- prototype
+- prototype chain
+- constructor function
+- class
+- inheritance
+- private field #field
+
+---------------------------------------------------------------------------------------------------------
+4. Array / Collection / Functional style
+- map
+- filter
+- reduce
+- find
+- some, every
+- sort
+- Set
+- Map
+- iterable / iterator
+- generator
+- Iterator Helpers mới
+
+---------------------------------------------------------------------------------------------------------
+5. Asynchronous JavaScript
+    Call Stack
+        ↓
+    Event Loop
+        ↓
+    Callback
+        ↓
+    Promise
+        ↓
+    async / await
+        ↓
+    Promise.all / allSettled / race / any
+        ↓
+    async iterator
+
+---------------------------------------------------------------------------------------------------------
+6. Module & cấu trúc project
+- ES Module
+- export
+- import
+- default/named export
+- dynamic import()
+- CommonJS require
+- ES Module vs CommonJS
+- package.json
+- npm
+
+---------------------------------------------------------------------------------------------------------
+7. Error Handling
+- try/catch/finally
+- throw
+- Error
+- custom Error
+- error trong Promise / async
+- Error.isError() mới
+
+---------------------------------------------------------------------------------------------------------
+8. Browser JavaScript
+JavaScript Language
+       │
+       ├── Browser
+       │    ├── DOM
+       │    ├── Events
+       │    ├── fetch
+       │    ├── localStorage
+       │    └── Web APIs
+       │
+       └── Node.js
+            ├── fs
+            ├── process
+            ├── http
+            └── ...
+
+---------------------------------------------------------------------------------------------------------
+9. Modern JavaScript / ES202x
+-> Các tính năng hiện đại mới
+
+---------------------------------------------------------------------------------------------------------
+10. JavaScript trong thực tế
+    JavaScript
+        ↓
+    Node.js
+        ↓
+    npm
+        ↓
+    package.json
+        ↓
+    TypeScript
+        ↓
+    frontend framework (React/Vue/...)

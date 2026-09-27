@@ -1,0 +1,50 @@
+Cú pháp:
+    let bool = Boolean();
+
+toString()
+    -> trả về "true" hoặc "false"
+
+Falsy
+    Các giá trị Falsy tương ứng với false:
+        false
+        0
+        -0
+        0n
+        ""
+        null
+        undefined
+        NaN
+
+    Tương đương:
+        Boolean(0);         // false
+        Boolean("");        // false
+        Boolean(null);      // false
+        Boolean(undefined); // false
+        Boolean(NaN);       // false
+
+    Dẫn đến:
+        const name = "";
+        if (name) {
+            console.log("Has name"); // Code không chạy vào đây
+        }
+
+Truthy
+    Mọi thứ không phải falsy về cơ bản là truthy.
+    Các giá trị ví dụ:
+        Boolean(1);       // true
+        Boolean(-1);      // true
+        Boolean(100);     // true
+
+        Boolean("hello"); // true
+        Boolean("false"); // true
+        Boolean("0");     // true
+
+        Boolean([]); // true
+        Boolean({}); // true
+
+    VD:
+        const name = "hello";
+        if (name) {
+            console.log("Has name"); // "Has name"
+        }
+

@@ -1,0 +1,83 @@
+1. Khai báo string bằng
+    - Dấu nháy đơn
+        Gần tương tự như nháy kép, không khác biệt mấy
+
+    - Dấu nháy kép
+        Gần tương tự như nháy đơn, không khác biệt mấy
+
+    - Dấu backtick
+        + Để sử dụng tính năng Template Literal — ${}
+        VD:
+            const name = 'Duc';
+            const info = `Hello, my name is ${name}`;
+
+        + Sử dụng biểu thức trong ${}
+            const age = 17;
+            const resultMsg = `Result is ${age >= 18 ? 'Active' : 'Block'}`;
+
+        + Xuống dòng
+            const text = `
+            Hello
+            JavaScript
+            World
+            `;
+
+2. Truy xuất đến các charracter
+    -> String là immutable (bất biến), chỉ truy xuất đc chứ không sửa đc các charracter
+    -> Có index, tương tự như index trong mảng
+    const name = 'Ngo Trung Duc';
+    const firstChar = name[0]; // 'N'
+
+3. Thuộc tính
+    - constructor (Thuộc tính)                          -> Trả về hàm khởi tạo của đối tượng chuỗi.
+    - length (Thuộc tính)                               -> Trả về số lượng ký tự của chuỗi.
+    - prototype (Thuộc tính)                            -> Cho phép thêm thuộc tính/phương thức mới vào đối tượng String.
+
+4. Các func hỗ trợ
+    - toUpperCase()                                     -> Chuyển toàn bộ thành chữ hoa
+    - toLowerCase()                                     -> Chuyển toàn bộ thành chữ thường
+    - trim()                                            -> Trim khoảng trắng đầu và cuối
+    - trimStart()                                       -> Trim khoảng trắng ở đầu
+    - trimEnd()                                         -> Trim khoảng trắng ở cuối
+    - includes(element, [start])                        -> Tìm chuỗi string từ chuỗi string gốc
+        in:
+            element: chuỗi string dùng để tìm kiếm
+            [start]: vị trí bắt đầu tìm, mặc định là 0
+        out:
+            true or false
+    - startsWith(element)                               -> Kiểm tra đầu chuỗi bao gồm element, trả về true false
+    - endsWith(element)                                 -> Kiểm tra cuỗi chuỗi bao gồm element, trả về true false
+    - indexOf(searchvalue, [start])                     -> Tìm kiến searchvalue string chuỗi
+        in:
+            searchvalue: chuỗi tìm kiếm
+            [start]: tìm kiếm từ vị trí
+        out:
+            trả về vị trí khớp đầu tiên
+            nếu không tìm thấy trả về -1
+    - lastIndexOf                                       -> Tìm từ cuối lên
+    - at(index)                                         -> Lấy ký tự tại chỉ mục (index), hỗ trợ số âm để đếm ngược từ cuối.
+    - charAt(index)                                     -> Lấy ký tự tại vị trí (index) chỉ định.
+    - charCodeAt(index)                                 -> Trả về mã UTF-16 của ký tự tại vị trí chỉ định.
+    - codePointAt(pos)                                  -> Trả về mã Code Point đầy đủ tại vị trí chỉ định.
+    - concat(...strings)                                -> Nối một hoặc nhiều chuỗi vào chuỗi gốc.
+    - fromCharCode(...codes)                            -> Tạo chuỗi từ các mã UTF-16 chỉ định.
+    - isWellFormed()                                    -> Kiểm tra chuỗi có chứa các chuỗi cô lập (lone surrogates) sai định dạng Unicode hay không.
+    - localeCompare(compareString, [locales], [options])-> So sánh hai chuỗi theo ngôn ngữ địa phương và cấu hình tùy chọn.
+    - match(regexp)                                     -> Tìm kiếm các chuỗi trùng khớp dựa trên Biểu thức chính quy (Regex).
+    - matchAll(regexp)                                  -> Trả về một iterator chứa tất cả các kết quả trùng khớp với Regex g (global).
+    - padEnd(targetLength, [padString])                 -> Thêm ký tự vào cuối chuỗi cho đến khi đạt độ dài chỉ định.
+    - padStart(targetLength, [padString])               -> Thêm ký tự vào đầu chuỗi cho đến khi đạt độ dài chỉ định.
+    - repeat(count)                                     -> Tạo chuỗi mới bằng cách lặp lại chuỗi ban đầu theo số lần chỉ định.
+    - replace(pattern, replacement)                     -> Thay thế vị trí trùng khớp đầu tiên của Regex hoặc chuỗi bằng chuỗi/hàm mới.
+    - replaceAll(pattern, replacement)                  -> Thay thế tất cả các vị trí trùng khớp của Regex hoặc chuỗi bằng chuỗi/hàm mới.
+    - search(regexp)                                    -> Tìm kiếm Regex và trả về vị trí xuất hiện đầu tiên.
+    - slice(indexStart, [indexEnd])                     -> Trích xuất một phần của chuỗi (chấp nhận chỉ mục âm).
+    - split([separator], [limit])                       -> Tách chuỗi thành mảng dựa trên ký tự phân tách và giới hạn số phần tử.
+    - substr(start, [length])                           -> Trích xuất chuỗi từ vị trí bắt đầu với số lượng ký tự chỉ định (đã lỗi thời).
+    - substring(indexStart, [indexEnd])                 -> Trích xuất chuỗi con nằm giữa hai chỉ mục chỉ định.
+    - toLocaleLowerCase([locales])                      -> Chuyển đổi chuỗi thành chữ thường theo ngôn ngữ địa phương.
+    - toLocaleUpperCase([locales])                      -> Chuyển đổi chuỗi thành chữ hoa theo ngôn ngữ địa phương.
+    - toString()                                        -> Trả về giá trị dạng chuỗi của đối tượng.
+    - toWellFormed()                                    -> Chuyển đổi chuỗi thành chuỗi chuẩn Unicode (thay các lone surrogates lỗi bằng ký tự thay thế).
+    - valueOf()                                         -> Trả về giá trị nguyên thủy của chuỗi.
+    

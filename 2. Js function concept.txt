@@ -1,0 +1,430 @@
+
+-------------------------------------------------------------------------------
+-------------------------------JavaScript function-----------------------------
+-------------------------------------------------------------------------------
+1. Function Declaration / Function Expression
+2. Arrow Function
+3. Parameters / Default Parameters / Rest Parameters
+4. Callback Function
+5. Scope
+6. Lexical Scope
+7. Closure
+8. Hoisting
+9. this
+10. call / apply / bind
+
+-------------------------------------------------------------------------------
+1. Function Declaration / Function Expression
+    - Trong JavaScript, function có thể được:
+        Gán vào biến
+        Truyền vào function khác
+        Return từ function
+        Lưu trong Object
+        Lưu trong Array
+
+    -> Function được đối xử như những value bình thường.
+
+    1.1 Khai báo function (Function Declaration)
+        function add(a, b) {
+            return a + b;
+        }
+
+        add(1, 6); // 7
+
+    1.2 Biểu thức function (Function Expression)
+        const add = function(a, b) {
+            return a + b;
+        }
+
+        add(3, 9); // 12
+
+    1.3 Gán function vào biến
+        function add(a, b) {
+            return a + b;
+        }
+
+        const operation = add;
+        operation(1, 2);
+
+        VD phổ biến:
+            button.addEventListener("click", handleClick); // thực thi khi ng dùng click vào button
+            button.addEventListener("click", handleClick()); // thực thi ngay khi code load đến phần này
+
+    1.4 Function nằm trong object
+        const user = {
+            name: 'Duc',
+            sayHello: function() { // Cú pháp đầy đủ
+                console.log('Hello');
+            },
+            working() { // Cú pháp rút gọn, thường dùng cách viết này ở phiên bản mới
+                console.log('Working ...');
+            }
+        };
+
+        user.sayHello();
+
+    1.5 Anonymous Function
+        -> Thường dùng làm callback
+        function(a, b) {
+            return a - b;
+        }
+
+        setTimeout(function() {
+            console.log("Hello");
+        }, 1000);
+
+-------------------------------------------------------------------------------
+2. Arrow Function
+    ├─ không có this riêng
+    ├─ không có arguments riêng
+    ├─ không dùng làm constructor với new
+    └─ không có prototype theo kiểu constructor function
+
+    2.1 Cách viết thông thường
+        const add = (a, b) => {
+            return a + b;
+        };
+
+    2.2 TH body của function chỉ có một lệnh return
+        const add = (a, b) => return a + b;
+
+    2.3 TH chỉ có một tham số đầu vào
+        const squareNumber = number => return number * number;
+
+    2.4 TH function không có tham số đầu vào, hoặc có nhiều tham số đầu vào
+        const add = () => return a + b; // không có tham số đầu vào
+        const add = (a, b, c) => return a + b + c; // có nhiều tham số đầu vào
+
+    2.5 TH trả về object, cần bọc thân function trong cặp dấu ()
+        const newUser = (name) => ({
+            id: 1,
+            name: name
+        });
+
+        hoặc
+        const newUser = (name) => {
+            return {
+                id: 1,
+                name: name
+            };
+        };
+        
+    2.6 Tổng kết
+        - Arrow function thích hợp khi cần func ngắn, hoặc làm callback
+        - VD:
+            const double = (x) => x * 2;        // func ngắn
+            numbers.map((x) => x * 2);          // áp dụng với mảng
+            users.filter((user) => user.active);// áp dụng với mảng
+            setTimeout(() => {                  // callback
+                console.log("Done");
+            }, 1000);
+
+-------------------------------------------------------------------------------
+3. Parameters / Default Parameters / Rest Parameters
+    3.1 Parameter thông thường
+        function add(a, b) {}
+
+    3.2 Default parameter
+        -> Default parameter chỉ kích hoạt khi undefined, tương ứng với không truyền param
+        function createUser(name, age = 18) {}
+
+    3.3 Rest parameter
+        function sum(...numbers) {}
+
+-------------------------------------------------------------------------------
+4. Callback Function
+    - Dùng function làm tham số parameter
+    - Callback là bản chất của nhiều API trong JavaScript
+        VD về array
+            array.map(callback)
+            array.filter(callback)
+            array.find(callback)
+            array.forEach(callback)
+            array.sort(callback)
+
+        VD về event
+            button.addEventListener("click", handleClick);
+            function handleClick() {
+                console.log("Clicked");
+            }
+
+    - Cơ bản
+        function hello() {
+            console.log("Hello");
+        }
+
+        function execute(callback) {
+            callback();
+        }
+
+        execute(hello);
+
+-------------------------------------------------------------------------------
+5. Scope
+    - Cơ bản gồm
+        Block scope (if else)
+        Function scope
+        Global scope
+
+    - Js khác biệt một chút:
+        Có thể khai báo biến trong Block scope hoặc Function scope với tên giống hệt biến ở Global scope
+        VD:
+            let num = 1;
+            if (true) {
+                let num = 2;
+                console.log(num); // 2
+            }
+
+            console.log(num); // 1
+
+-------------------------------------------------------------------------------
+6. Lexical Scope
+    - Function truy cập biến dựa vào nơi function được khai báo trong code, không phải nơi function được gọi.
+    - VD:
+        const name = "Global";
+
+        function printName() {
+            console.log(name);
+        }
+
+        function test() {
+            const name = "Local";
+
+            printName();
+        }
+
+        test(); // Local
+        printName(); // Global
+
+-------------------------------------------------------------------------------
+7. Closure
+    - Các biến thuộc cấp Lexical Scope vẫn được duy trì khi gọi đi gọi lại function nhiều lần
+    - VD:
+        function createCounter() {
+            let count = 0;
+
+            function increment() {
+                count++;
+                return count;
+            }
+
+            return increment;
+        }
+
+        const counterA = createCounter();
+        const counterB = createCounter();
+
+        console.log(counterA()); // 1, biến counterA sẽ lưu trữ biến count riêng, sử dụng lại mỗi khi gọi mà không hủy biến sau khi kết thúc func
+        console.log(counterA()); // 2, biến counterA sẽ lưu trữ biến count riêng, sử dụng lại mỗi khi gọi mà không hủy biến sau khi kết thúc func
+        console.log(counterA()); // 3, biến counterA sẽ lưu trữ biến count riêng, sử dụng lại mỗi khi gọi mà không hủy biến sau khi kết thúc func
+
+        console.log(counterB()); // 1, biến counterB sẽ lưu trữ biến count riêng, sử dụng lại mỗi khi gọi mà không hủy biến sau khi kết thúc func
+        console.log(counterB()); // 2, biến counterB sẽ lưu trữ biến count riêng, sử dụng lại mỗi khi gọi mà không hủy biến sau khi kết thúc func
+
+-------------------------------------------------------------------------------
+8. Hoisting
+    - Hoisting là cơ chế mặc định của JavaScript để di chuyển tất cả các biến và hàm khi khai báo lên đầu scope trước khi chúng được thực thi.
+    - Lưu ý đối với cơ chế này nó chỉ di chuyển khai báo, còn việc gán giá trị thì giữ nguyên, không di chuyển
+    - Hoisting variables
+        Js hỗ trợ vừa khai báo biến, vừa gán giá trị ban đầu
+        Bóc tách ra:
+            Có vẻ js đưa phần khai báo lên đầu của scope
+            Sau đó mới gán cho biến với giá trị
+
+    - Với biến đc khai báo bằng var
+        Code ban đầu
+            console.log(variables); // undefined
+            var variables = 10;
+
+        Tương đương với:
+            var variables; // sau khi khai báo, giá trị sẽ là undefined
+            console.log(variables); // undefined
+            var variables = 10;
+    
+    - Với biến đc khai báo bằng let, const
+        console.log(variables); // ReferenceError
+        let variables = 10; // tương tự với const
+        // Vì let và const không thể khai báo lại
+
+    - Function declaration
+        hello(); // Hello
+
+        function hello() {
+            console.log("Hello");
+        }
+
+    - Function expression
+        hello(); // ReferenceError
+
+        const hello = function() { // ReferenceError kể cả khi khai báo var, let, const
+            console.log("Hello");
+        };
+
+    - Arrow function
+        Lỗi tương tự như Function expression
+
+    - Tổng kết
+        Hoisting với biến:
+            var -> thành công, kết quả là undefined
+            let -> lỗi
+            const -> lỗi
+
+        Hoisting với function:
+            Function declaration -> thành công, trả kết quả như mong đợi
+            Function expression -> lỗi
+            Arrow function -> lỗi
+
+-------------------------------------------------------------------------------
+9. this
+    - Khi sử dụng this trong function thường, 
+        this thường không được quyết định bởi nơi function được viết, 
+        mà bởi cách function được gọi.
+        VD 1:
+            const user = {
+                name: "Duc",
+                sayHello() {
+                    console.log(this.name);
+                }
+            };
+
+            user.sayHello();
+            ↑
+            user ở đây chính là this
+
+        VD 2:
+            function sayHello() {
+                console.log(this.name);
+            }
+
+            const user1 = {
+                name: "Duc",
+                sayHello
+            };
+
+            const user2 = {
+                name: "Nam",
+                sayHello
+            };
+
+            user1.sayHello(); // "Duc"
+            ↑
+            user1 ở đây chính là this
+            user2.sayHello(); // "Nam"
+            ↑ 
+            user2 ở đây chính là this
+
+    - Một số TH dễ làm mất this, this trong những TH này là undefined
+        VD 1: Tách method ra khỏi Object
+            TH ban đầu, this vẫn là user
+                const user = {
+                    name: "Duc",
+                    sayHello() {
+                        console.log(this.name);
+                    }
+                };
+
+                user.sayHello(); // Duc
+
+            Nhưng nếu call func kiểu khác
+                const hello = user.sayHello;
+                hello(); // TH này sẽ là undefined.name, dễ gây TypeError
+
+        VD 2: callback dễ làm mất this
+            function execute(callback) {
+                callback(); // đây chính là nguyên nhân gây mất this, vì không phải call func theo cách user.sayHello
+            }
+
+            execute(user.sayHello);
+        
+    - Nếu this bên trong arrow function
+        this trong TH này không xác định bằng cách function được gọi,
+        mà được xác định dựa trên scope, scope bọc bên ngoài arrow function sẽ là this
+        VD 1:
+            this sẽ dựa vào scope bên ngoài để xác định giá trị, scope bên ngoài ở đây là func sayHello, this của func sayHello là this
+            const user = {
+                name: "Duc",
+                sayHello() {
+                    const printName = () => {
+                        console.log(this.name);
+                    };
+
+                    printName();
+                }
+            };
+
+            user.sayHello(); // "Duc"
+
+        VD 2:
+            TH này, scope bên ngoài không phải là obj user,
+                chỉ những hàm (Function) và khối lệnh (Block như if, for, while với let/const) mới là scope,
+                vì vậy scope bên ngoài sẽ là global, thường sẽ là windows, kết quả sẽ in ra windows.name
+
+            const user = {
+                name: "Duc",
+                const printName = () => {
+                    console.log(this.name);
+                };
+            };
+
+            user.printName(); // windows.name
+
+    - this với constructor
+        this trong Th này trỏ đến obj vừa mới tạo
+        function User(name) {
+            this.name = name;
+        }
+
+        const user = new User("Duc");
+
+    - Tổng kết:
+        Nếu muốn khai báo func trong obj, nên dùng func thông thường, không nên dùng arrow function
+        Function con muốn dùng this của method cha -> sử dụng arrow function
+        This của constructor sẽ trỏ đến obj mới được khởi tạo
+
+-------------------------------------------------------------------------------
+10. call(), apply(), bind()
+    - call, apply, bind cho phép chúng ta chủ động chỉ định this của normal function.
+
+    - call
+        Cú pháp:
+            functionName.call(thisArg, arg1, arg2, ...);
+        VD:
+            function introduce(age, city) { console.log(`${this.name}, ${age}, ${city}`); }
+            const user = { name: "Duc" };
+            introduce.call(user, 30, "Ha Noi");
+            // Duc, 30, Ha Noi
+
+    - apply
+        Cú pháp:
+            func.apply(thisArg, [argsArray])
+        VD:
+            function introduce(age, city) { console.log(`${this.name}, ${age}, ${city}`); }
+            const user = { name: "Duc" };
+            introduce.call(user, [30, "Ha Noi"]);
+            // Duc, 30, Ha Noi
+
+    - bind
+        Tạo function mới khi bind xong this
+        bind có thể giải quyết lỗi mất this
+        Cú pháp:
+            const boundFunction = originalFunction.bind(thisArg, arg1, arg2, ...);
+        VD:
+            function introduce(age, city) { console.log(`${this.name}, ${age}, ${city}`); }
+            const user = { name: "Duc" };
+            const newFunc = introduce.bind(user, 30, "Ha Noi");
+            newFunc(); // Duc, 30, Ha Noi
+
+        VD giải quyết lỗi mất this
+            const user = {
+                name: "Duc",
+
+                sayHello() {
+                    console.log(this.name);
+                }
+            };
+
+            const hello = user.sayHello;
+            hello(); -> mất this
+
+            const hello = user.sayHello.bind(user);
+            hello(); // Duc

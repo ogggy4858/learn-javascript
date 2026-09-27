@@ -11,7 +11,8 @@
 7. Bóc tách object, array thành các biến (destructuring)
 8. spread (bung ra) / rest (gom lại)
 9. template literal
- 
+
+-------------------------------------------------------------------------------
 1. Khai báo biến bằng từ khóa var, let, const
     var
         - Đây là cách cũ, dùng để khai báo biến, không khuyến khích dùng ở hiện tại
@@ -32,6 +33,7 @@
         - const bắt buộc gắn giá trị khi khai báo, không sửa được giá trị sau khi khai báo
         - thường dùng khi giá trị của biến không thay đổi
 
+-------------------------------------------------------------------------------
 2. Primitive (kiểu nguyên thủy) và Reference (kiểu tham chiếu)
     Primitive (kiểu nguyên thủy)
         - Là các kiểu sau:
@@ -60,6 +62,7 @@
         Khi gán giá trị b = a, con trỏ của biến b sẽ trỏ đến vùng nhớ của biến a trên heap
         Dẫn đến khi sửa giá trị, sẽ sửa giá trị của cả 2 biến a và b
 
+-------------------------------------------------------------------------------
 3. Undefined và Null
     Undefined
         - Các TH bị undefined là:
@@ -86,6 +89,7 @@
         - null === undefined 
             -> trả về false vì type của null là object, còn type của undefined là undefined
 
+-------------------------------------------------------------------------------
 4. Các toán tử cơ bản, tăng giảm
     - Cơ bản: cộng, trừ, nhân, chia, lấy phần trăm, lũy thừa
         10 + 5;  // 15
@@ -128,6 +132,7 @@
     - Tương tự với toán tử != và !==
     - Toán tử và &&, hoặc ||, phủ định !
 
+-------------------------------------------------------------------------------
 5. Falsy và Truthy
     - Javascript có thể chuyển nhiều giá trị thành Falsy hoặc Truthy, nói cách khác là false và true
     Falsy
@@ -157,6 +162,7 @@
             Boolean("false");   // true -> Vì chúng là string không rỗng
             Boolean("0");       // true -> Vì chúng là string không rỗng
 
+-------------------------------------------------------------------------------
 6. Truy xuất vào propery ?. và toán tử kiểm tra - gán ??
     ?.
         Sử dụng để truy xuất vào các thuộc tính bên trong mà không gây lỗi trương chình
@@ -166,6 +172,7 @@
         Nghĩa là nếu a === null hoặc a === undefined
         -> Lấy giá trị b
 
+-------------------------------------------------------------------------------
 7. Destructuring
     - Destructuring = bóc/tách giá trị từ Object hoặc Array ra thành các biến.
     - Với object: dựa vào tên property, đặt tên biến phải trùng với tên property của object
@@ -197,6 +204,7 @@
         let b = 20
         [a, b] = [b, a]
 
+-------------------------------------------------------------------------------
 8. spread (bung ra) / rest (gom lại)
     spread (bung ra)
         In ra màn hình console
@@ -267,6 +275,7 @@
             const { id, name, ...others } = user; // id = 1, name  = "Duc", others = {age: 30, city: "Hanoi"}
             id và name sẽ là một giá trị kiểu string, còn others sẽ là một object
 
+-------------------------------------------------------------------------------
 9. Template Literal
     - Các viết string bằng dấu backtick ``
     const name = "Duc";

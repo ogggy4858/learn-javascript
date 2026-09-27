@@ -1,0 +1,109 @@
+Thuộc tính (Properties)
+    - constructor: Trả về hàm đã tạo ra nguyên mẫu (prototype) của đối tượng Number trong JavaScript.
+    - EPSILON: Trả về khoảng chênh lệch giữa số 1 và số nhỏ nhất lớn hơn 1.
+    - MAX_SAFE_INTEGER: Trả về số nguyên an toàn lớn nhất trong JavaScript.
+    - MIN_SAFE_INTEGER: Trả về số nguyên an toàn nhỏ nhất trong JavaScript.
+    - MAX_VALUE: Trả về số lớn nhất có thể biểu diễn trong JavaScript.
+    - MIN_VALUE: Trả về số nhỏ nhất (lớn hơn 0) có thể biểu diễn trong JavaScript.
+    - prototype: Cho phép bạn thêm các thuộc tính và phương thức mới vào một đối tượng.
+    - NaN: Đại diện cho giá trị "Không phải là một số" (Not-a-Number).
+    - NEGATIVE_INFINITY: Đại diện cho giá trị vô cực âm (trả về khi bị tràn số âm).
+    - POSITIVE_INFINITY: Đại diện cho giá trị vô cực dương (trả về khi bị tràn số dương).
+
+Phương thức (Methods)
+    - isFinite(): Kiểm tra xem một giá trị có phải là một số hữu hạn hay không.
+    - isInteger(): Kiểm tra xem một giá trị có phải là một số nguyên hay không.
+    - isNaN(): Kiểm tra xem một giá trị có phải là Number.NaN hay không.
+    - isSafeInteger(): Kiểm tra xem một giá trị có phải là một số nguyên an toàn hay không.
+    - parseFloat(): Phân tích một chuỗi và trả về một số thực (số có dấu phẩy động).
+    - parseInt(): Phân tích một chuỗi và trả về một số nguyên.
+    - toExponential(x): Chuyển đổi một số sang dạng ký pháp mũ (lũy thừa cơ số 10).
+    - toFixed(x): Định dạng một số với x chữ số sau dấu thập phân.
+    - toLocaleString(): Chuyển đổi một số thành chuỗi dựa trên cài đặt ngôn ngữ/quốc gia của hệ thống.
+    - toPrecision(x): Định dạng một số theo độ dài hiển thị là x chữ số (tổng các chữ số).
+    - toString(): Chuyển đổi một số thành một chuỗi.
+    - valueOf(): Trả về giá trị nguyên thủy (primitive value) của một số.
+
+Các hàm toán học
+    Hằng số Toán học (Constants)
+        - E: Trả về số Euler (khoảng 2.718).
+        - LN2: Trả về logarit tự nhiên của 2 (khoảng 0.693).
+        - LN10: Trả về logarit tự nhiên của 10 (khoảng 2.302).
+        - LOG10E: Trả về logarit cơ số 10 của E (khoảng 0.434).
+        - LOG2E: Trả về logarit cơ số 2 của E (khoảng 1.442).
+        - PI: Trả về số PI (khoảng 3.14).
+        - SQRT1_2: Trả về căn bậc hai của 1/2 (khoảng 0.707).
+        - SQRT2: Trả về căn bậc hai của 2 (khoảng 1.414).
+
+    Phương thức Toán học (Methods)
+        - abs(x): Trả về giá trị tuyệt đối của x.
+        - acos(x): Trả về arccosin của x (tính bằng radian).
+        - acosh(x): Trả về arccosin hyperbolic của x.
+        - asin(x): Trả về arcsin của x (tính bằng radian).
+        - asinh(x): Trả về arcsin hyperbolic của x.
+        - atan(x): Trả về arctang của x (trả về giá trị từ -PI/2 đến PI/2 radian).
+        - atan2(y, x): Trả về arctang của thương hai tham số truyền vào.
+        - atanh(x): Trả về arctang hyperbolic của x.
+        - cbrt(x): Trả về căn bậc ba của x.
+        - ceil(x): Làm tròn x lên số nguyên gần nhất.
+        - clz32(x): Trả về số chữ số 0 ở đầu của x khi biểu diễn nhị phân 32-bit.
+        - cos(x): Trả về cosin của x (x tính bằng radian).
+        - cosh(x): Trả về cosin hyperbolic của x.
+        - exp(x): Trả về giá trị của số Euler lũy thừa x ($E^x$).
+        - expm1(x): Trả về giá trị của số Euler lũy thừa x trừ đi 1 ($E^x - 1$).
+        - f16round(x): Trả về dạng số thực Float 16-bit gần nhất với x (Lưu ý: Mô tả tiếng Anh gốc bạn gửi bị trùng với hàm floor, đây mới là chức năng đúng của nó).
+        - floor(x): Làm tròn x xuống số nguyên gần nhất.
+        - fround(x): Trả về dạng số thực Float 32-bit gần nhất của một số.
+        - log(x): Trả về logarit tự nhiên (cơ số e) của x.
+        - log10(x): Trả về logarit cơ số 10 của x.
+        - log1p(x): Trả về logarit tự nhiên của 1 + x.
+        - log2(x): Trả về logarit cơ số 2 của x.
+        - max(x1, x2, ...): Trả về số có giá trị lớn nhất.
+        - min(x1, x2, ...): Trả về số có giá trị nhỏ nhất.
+        - pow(x, y): Trả về giá trị x lũy thừa y ($x^y$).
+        - random(): Trả về một số ngẫu nhiên từ 0 (bao gồm) đến dưới 1 (không bao gồm).
+        - round(x): Làm tròn x đến số nguyên gần nhất.
+        - sign(x): Trả về dấu của số x (kiểm tra xem số đó là số dương, số âm hay số 0).
+        - sin(x): Trả về sin của x (x tính bằng radian).
+        - sinh(x): Trả về sin hyperbolic của x.
+        - sqrt(x): Trả về căn bậc hai của x.
+        - tan(x): Trả về tang của một góc.
+        - tanh(x): Trả về tang hyperbolic của một số.
+        - trunc(x): Trả về phần nguyên của số x (loại bỏ hoàn toàn phần thập phân).
+
+BigInt
+    - Khởi tạo
+        const value1 = 123n;
+        console.log(typeof value1);
+        // "bigint"
+
+        const value2 = 9007199254740993n;
+        console.log(value2);
+        // 9007199254740993n
+
+    - Hoặc khởi tạo
+        const value = BigInt("9007199254740993");
+
+    - Phép toán cơ bản
+        10n + 20n; // 30n
+        10n - 5n;  // 5n
+        10n * 5n;  // 50n
+        10n / 3n;  // 3n
+        10n % 3n;  // 1n
+        2n ** 10n; // 1024n
+
+    - Phép toán với number
+        -> Phải convert number qua BigInt nếu không sẽ gặp lỗi TypeError
+        const a = 10n;
+        const b = 20;
+        a + BigInt(b); // 30n
+
+    - Nếu số BigInt nằm trong 2 đoạn là MAX_SAFE_INTEGER và MIN_SAFE_INTEGER, có thể convert ngược lại number
+    - BigInt không có số thực
+    - Sử dụng BigInt ở chuỗi JSON
+        -> cần convert về string vì JSON không hiểu BigInt
+
+        VD TH lỗi:
+            JSON.stringify({
+                id: 123n
+            });

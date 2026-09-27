@@ -1,0 +1,239 @@
+- Lý thuyết
+    - Không y/c các phần tử trong mảng phải cùng datatype
+    - typeof của array là object
+    - Để kiểm tra có phải array hay không: Array.isArray(value);
+    - Index bắt đầu từ 0
+
+- Thuộc tính
+    length: số phần tử trong mảng
+
+- Khai báo
+    const numbers = [10, 20, 30];
+    const names = ["An", "Binh", "Cuong"];
+    const values = [
+        10,
+        "hello",
+        true,
+        null,
+        { name: "Duc" },
+        [1, 2, 3]
+    ];
+
+- Thao tác với phần tử
+    + Truy cập phần tử:
+        console.log(numbers[1]); // 20
+
+    + Sửa phần tử:
+        numbers[1] = 40;
+
+    + Thêm phần tử ở vị trí cuối
+        push(...elements)
+            in:
+                truyền vào lần lượt các phần tử
+            out:
+                trả về length của mảng sau khi push phần tử thành công
+
+        VD:
+            let length = numbers.push(50, 60);
+            // length = 5
+    
+    + Xóa phần tử ở cuối
+        pop()
+            out:
+                phần tử vừa bị xóa
+
+    + Thêm phần tử vào đầu mảng, tương tự push
+        unshift(...elements)
+
+    + Xóa phần tử đầu tiên
+        shift()
+
+- Một số func khác:
+    + newAray = array1.concat(array2)       
+        -> Nối mảng array2 vào array1, trả về mảng mới
+
+    + newAray = array1.slice(start, end)    
+        -> lấy các phần tử ở array1 để tạo ra mảng mới, lấy từ phần tử ở vị trí start, đến phần tử ngay sát phần tử end
+
+    + newAray = numbers.slice();            
+        -> Cũng là func slice nhưng không truyền tham số nào cả, chức năng copy tạo ra array mới
+
+    + splice(start, deleteCount, [...items])  
+        -> Sử dụng func này để xóa / thêm / replace phần tử, func này tác động trực tiếp vào mảng gốc (mutate)
+        Sử dụng để xóa phần tử:
+            -> Xóa bắt đầu từ phần tử có idx = 1, và xóa 2 phần tử, trả về một mảng gồm những phần tử đã xóa
+            const deleted = numbers.splice(1, 2);
+
+        Sử dụng để thêm phần tử:
+            -> Xóa 0 phần tử, thêm phần tử 20 và 30 từ vị trí idx 1
+            const numbers = [10, 40];
+            numbers.splice(1, 0, 20, 30);
+
+        Sử dụng để replace phần tử:
+            -> Xóa một phần tử ở vị trí idx = 1, sau đó thêm một phần tử 200 ở vị trí idx = 1, tương đương replace phần tử 20 thành 200
+            const numbers = [10, 20, 30];
+            numbers.splice(1, 1, 200);
+
+    + newAray = toSpliced(start, deleteCount, [...items])   
+        -> Một phiên bản khác của func splice, nhưng không tác động trực tiếp vào mảng gốc (không mutate), vì vậy nó luôn trả về một mảng mới
+
+    + bool = array.includes(element, [start]);    
+        -> Kiểm tra xem có tồn tại phần tử, bắt đầu kiểm tra từ vị trí start, trả về true nếu tồn tại, false nếu không tồn tại
+        -> cẩn thận khi includes với những phần tử có kiểu là object, cần phải trỏ đúng đến ô nhớ của phần tử đang tìm kiếm thì mới tìm được
+
+    + number = array.indexOf(searchElement, [fromIndex])
+        -> Tìm kiếm phần tử trong mảng và trả về idx của phần tử đó, bắt đầu tìm kiếm từ vị trí fromIndex
+
+    + array.lastIndexOf(item, start)
+        -> Tương tự như indexOf nhưng tìm kiếm từ cuối lên
+
+    + element = array.find(arrow function)
+        -> Tìm kiếm phần tử, hữu ích trong TH các phần tử là các object
+        -> Trả về undefined nếu không tìm thấy phần tử nào
+        -> Chỉ trả về một phần tử nếu tìm thấy
+        -> VD:
+            const users = [
+                { id: 1, name: "An" },
+                { id: 2, name: "Binh" },
+                { id: 3, name: "Cuong" }
+            ];
+
+            const user = users.find(
+                x => x.id === 2
+            );
+
+    + number = findIndex(arrow function)
+        -> Tương tự như func find() nhưng trả về vị trí của phần tử
+
+    + findLast() và findLastIndex()
+        -> Tương tự như find() và findIndex() nhưng tìm từ cuối lên
+
+    + bool = some(arrow function)
+        -> Tìm kiếm xem có phần tử nào không, trả về true nếu tìm thấy phần tử, false nếu không tìm thấy phần tử
+
+    + bool = every(arrow function)
+        -> Tất cả phần tử trong mảng có thỏa mãn điều kiện không
+
+    + forEach
+        -> Lặp qua từng phần tử
+        -> VD:
+        users.forEach((user, index, array) => {
+            // something
+        });
+
+    + newAray = array.map(arrow function)
+        -> Tạo ra mảng mới theo điều kiện return của arrow function
+        -> Các phần tử là các obj, có dùng để lọc tên của các obj - phần tử thành mảng riêng
+        -> Có thể dùng để format dữ liệu, ...
+        -> map() không mutate array gốc, nhưng có thể mutate các phần tử bên trong, cách làm là dùng array.map(...
+        -> VD 1: có dùng để lọc tên của các obj - phần tử
+            const users = [
+                { id: 1, name: "An" },
+                { id: 2, name: "Binh" },
+                { id: 3, name: "Cuong" }
+            ];
+
+            const names = users.map(
+                user => user.name
+            );
+
+        -> VD 2: Hoặc dùng để format dữ liệu
+            const result = numbers.map(
+                x => `${x} VND`
+            );
+
+        -> VD 3: TH làm mutate mảng gốc
+            const users = [
+                { name: "An" },
+                { name: "Binh" }
+            ];
+
+            users.map(user => {
+                user.name = user.name.toUpperCase();
+                return user;
+            });
+
+    + newAray = array.filter(arrow function)
+        -> Dùng để lọc phần tử, trả về một mảng mới bao gồm các phần tử thỏa mãn
+        -> Khác với map, map dùng để biến đổi phần tử, còn filter là để lọc phần tử
+        -> Trả về mảng rỗng nếu không filter đc phần tử nào
+
+    + reduce
+        -> Cấu trúc của câu lệnh:
+            array.reduce(
+                (accumulator, currentValue) => {
+                    return newAccumulator;
+                },
+                initialValue
+            );
+    
+            accumulator: tích lũy
+            currentValue: đang là phần tử nào
+            initialValue: giá trị ban đầu
+
+        -> VD tổng tiền:
+            const total = cart.reduce(
+                (sum, item) => {
+                    return sum + item.price * item.quantity;
+                },
+                0
+            );
+
+            Tại vòng lặp đầu tiên, 
+                sum sẽ = initialValue, nghĩa là = 0,
+                sau khi tính toán tại câu lệnh return xong, sẽ gán lại cho biến sum
+
+        -> reduce hơi khó đọc, nếu chỉ tính toán thì nên dùng forEach
+
+    + sort()
+        -> sort sẽ làm mutate mảng gốc
+        -> array.sort(); đúng với mảng nếu các phần tử là string
+        -> array.sort((a, b) => a - b); sắp xếp tăng dần, nếu các phần tử trong mảng là số
+        -> array.sort((a, b) => b - a); sắp xếp giảm dần, nếu các phần tử trong mảng là số
+        -> users.sort((a, b) => a.age - b.age); sort các phần tử là object theo số tuổi tăng dần
+        -> users.sort((a, b) => b.age - a.age); sort các phần tử là object theo số tuổi giảm dần
+        -> names.sort((a, b) => a.localeCompare(b, "vi")); sort với tiếng Việt
+        -> sort với nhiều điều kiện
+            users.sort(
+                (a, b) =>
+                    a.age - b.age ||
+                    a.name.localeCompare(b.name)
+            );
+
+        -> nếu không muốn mutate mảng cũ
+            const result = [...numbers].sort(
+                (a, b) => a - b
+            );
+
+    + toSorted()
+        -> tương đương với sort() nhưng không làm mutate mảng gốc
+
+    + reverse()
+        -> tương đương sort() nhưng sắp xếp giảm dần và làm mutate mảng gốc
+
+    + toReversed()
+        -> tương đương sort() nhưng sắp xếp giảm dần và không làm mutate mảng gốc
+
+    + join(charracter)
+        -> Nối các phần tử thành chuỗi, trái ngược với string.split()
+    
+    + flat()
+        -> cán phẳng các mảng có chứa mảng con thành một mảng duy nhất
+        VD:
+            const numbers = [
+                [1, 2],
+                [3, 4],
+                [5, 6]
+            ];
+
+            numbers.flat();
+            // Kết quả: [1, 2, 3, 4, 5, 6]
+
+    + flatMap()
+        Phương thức flatMap() trong JavaScript dùng để duyệt qua từng phần tử của mảng, 
+            áp dụng hàm biến đổi cho phần tử đó, 
+            và làm phẳng kết quả xuống 1 cấp rồi tạo ra một mảng mới
+        VD:
+            const sentences = ["Hello world", "JavaScript is fun"];
+            const words = sentences.flatMap(sentence => sentence.split(" "));
+            // Kết quả: ['Hello', 'world', 'JavaScript', 'is', 'fun']

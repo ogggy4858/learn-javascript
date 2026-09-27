@@ -1,0 +1,27 @@
+- Thường sủ dụng để làm thuộc tính (tên thuộc tính) duy nhất của object
+- Mỗi Symbol được tạo ra là unique.
+
+- Khai báo:
+    const id = Symbol();
+    typeof id;
+    // "symbol"
+
+- Hoặc:
+    const id = Symbol("id");
+
+- VD làm key của object
+    const internalId = Symbol("id");
+    const user = {
+        id: 1,
+        name: "Duc",
+        [internalId]: "ABC123"
+    };
+
+    Truy xuất:
+        user[internalId]; // "ABC123"
+
+    Nhưng nếu có một Symbol("id") khác, nó bản chất vẫn là một Symbol khác, công dụng thường để làm thứ gì đó duy nhất
+        const internalId2 = Symbol("id");
+        internalId === internalId2 // false
+
+    
