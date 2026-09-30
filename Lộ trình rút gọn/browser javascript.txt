@@ -1,0 +1,582 @@
+
+-------------------------------------------------------------------------------
+-------------------------------Browser JavaScript------------------------------
+-------------------------------------------------------------------------------
+1. Browser environment — window, document, DOM là gì
+2. DOM — tìm, đọc, sửa, tạo, xóa element
+3. Event — click, input, submit, keyboard...
+4. Event propagation — bubbling, capturing, delegation
+5. Form — lấy dữ liệu, validate cơ bản
+6. Browser storage — localStorage, sessionStorage, cookie ở mức cần thiết
+7. Fetch API — GET/POST/PUT/DELETE, JSON, headers
+8. Async trong Browser — Promise, async/await, xử lý lỗi khi gọi API
+9. Một số Browser API hay gặp — URL, URLSearchParams, location, history, timer...
+
+-------------------------------------------------------------------------------
+1. Browser environment — window, document, DOM là gì
+    - Khi JS chạy trong browser, browser cung cấp cho chúng ta rất nhiều object
+    - window đại diện cho browser window/tab hiện tại.
+    - Hình dung các object như bên dưới
+    window
+    ├── document        → trang HTML / DOM
+    ├── location        → URL hiện tại
+    ├── history         → lịch sử browser
+    ├── localStorage
+    ├── sessionStorage
+    ├── navigator
+    ├── console
+    │
+    ├── setTimeout()
+    ├── setInterval()
+    ├── fetch()
+    └── ...
+
+    - document, DOM, DOM tree, element, node
+        + Browser đọc HTML và tạo ra DOM tree, 
+            chúng ta sẽ dùng document để truy cập DOM tree này.
+            Truy cập, chỉnh sửa thuộc tính của một node trong DOM tree chính là đang chỉnh sửa phần tử HTML
+        + Nói cách khác, DOM chính là giao diện (interface) để JavaScript sử dụng để thao tác với HTML
+        VD: 
+            document.title = '(5) Facebook'; // chỉnh sửa Text của thẻ title
+            document.body
+
+        + Sau khi browser parse HTML, nó không còn đơn thuần là một chuỗi text nữa, browser tạo ra một object đại diện cho <h1>.
+        + JS có thể lấy object đó
+        VD:
+            const title = document.querySelector("#title");
+
+        + DOM gồm các thành phần:
+            Element
+                VD: object tương ứng của thẻ <p> mà trình duyệt parse từ HTML, ...
+            Attribute
+                VD: href của thẻ a, class của thẻ div, ...
+            Text
+                VD: Text của thẻ <span>
+
+        + Thông thường sử dụng js để thao tác với HTML như bên dưới
+            HTML
+             ↓
+            Browser parse
+             ↓
+            DOM
+             ↓
+            JavaScript lấy DOM object
+             ↓
+            đọc / sửa / thêm / xóa
+
+    - Sơ đồ
+        ┌────────────────────────┐
+        │        Document        │
+        └───────────┬────────────┘
+                    │
+        ┌───────────▼────────────┐
+        │      Root element:     │
+        │         <html>         │
+        └───────────┬────────────┘
+                    ├──────────────────────────────────────────────────┐
+        ┌───────────▼────────────┐                        ┌────────────▼───────────┐
+        │        Element:        │                        │        Element:        │
+        │         <head>         │                        │         <body>         │
+        └───────────┬────────────┘                        └────────────┬───────────┘
+                    │                                                  │
+        ┌───────────▼────────────┐                ┌────────────────────┼───────────────────┐
+        │        Element:        │                │                    │                   │
+        │        <title>         │      ┌─────────▼────────┐ ┌─────────▼────────┐ ┌────────▼─────────┐
+        └───────────┬────────────┘      │    Attribute:    │ │     Element:     │ │     Element:     │
+                    │                   │     "href"       │ │       <a>        │ │       <h1>       │
+        ┌───────────▼────────────┐      └──────────────────┘ └─────────┬────────┘ └──────────┬───────┘
+        │         Text:          │                                     │                     │
+        │       "My title"       │                           ┌─────────▼────────┐ ┌──────────▼─────────┐
+        └────────────────────────┘                           │      Text:       │ │       Text:        │
+                                                             │    "My link"     │ │   "My header"      │
+                                                             └──────────────────┘ └────────────────────┘
+        + Trình duyệt đọc tải HTML sẽ tạo ra DOM tree như sơ đồ
+        + Có các element như là:
+            <html>
+            <head>
+            <body>
+            <title>
+            <a>
+            <h1>
+        + Có các thuộc tính Attribute là:
+            "href"
+        + Có các text là:
+            "My title"
+            "My link"
+            "My header"
+
+    - Node
+        -> Mỗi ô vuông ở sơ đồ trên là một node, 
+            Root Element: <html>, Element: <a>, Attribute: "href", Text: "My link" đều là node.
+            Nhưng một node kiểu Attribute và Text không phải element
+        
+-------------------------------------------------------------------------------
+1. Một số kiểu dữ liệu / interface cơ bản
+    Node
+    Element
+    HTMLElement
+    HTMLDivElement
+    HTMLInputElement
+    HTMLButtonElement
+    HTMLCollection
+    NodeList
+
+    - Element kế thừa từ Node, HTMLElement lại kế thừa từ Element, HTMLDivElement & HTMLInputElement & HTMLButtonElement kế thừa từ HTMLElement,
+    - Mỗi object DOM đều có thuộc tính chung, đc kế thừa từ HTMLElement, và có những thuộc tính của riêng nó
+        VD: có các thuộc tính chung như id, className, ..., các thuộc tính đặc thù như
+            input: value, checked, type, placeholder
+            button: disabled, type
+
+    - HTMLCollection 
+        + Là một mảng chứa các HTMLElement
+        + HTMLCollection không phải array, Array.isArray(students); trả về false
+        + HTMLCollection có thể loop bằng: for (const element of nodeList) {}
+        + Convert về array: const array = Array.from(students); hoặc const array = [...students];
+        + HTMLCollection là live, 
+            html thay đổi, thì giá trị của biến cũng sẽ thay đổi theo mà không cần gán lại, 
+            code dễ gây bug ở chỗ này
+        + Các func trả về HTMLCollection:
+            • document.getElementsByClassName(className): Lấy tất cả phần tử có class được chỉ định.
+            • document.getElementsByTagName(tagName): Lấy tất cả phần tử có tên thẻ được chỉ định (ví dụ: 'div', 'p').
+            • document.getElementsByName(name) (Lưu ý đặc biệt): Trên hầu hết các trình duyệt hiện đại, hàm này trả về một NodeList, nhưng trong một số tài liệu cũ hoặc môi trường đặc biệt, nó có thể hoạt động giống HTMLCollection. Nên xem nó là NodeList.
+            • element.children: Thuộc tính trả về tất cả các phần tử con chỉ là thẻ HTML của phần tử đó (bỏ qua text và comment).
+            • document.forms: Lấy tất cả các thẻ <form> trong trang.
+            • document.images: Lấy tất cả các thẻ <img> trong trang.
+            • document.links: Lấy tất cả các thẻ <a> và <area> có thuộc tính href.
+            • document.scripts: Lấy tất cả các thẻ <script> trong trang.
+            • table.rows / row.cells: Các thuộc tính đặc biệt khi thao tác với bảng (<table>), trả về danh sách các hàng hoặc các ô.
+
+    - NodeList là một mảng chứa các Node
+        + NodeList không phải array, Array.isArray(students); trả về false
+        + NodeList có forEach
+        + NodeList có các API iteration quen thuộc như: forEach(), entries(), keys(), values(), for (const element of nodeList) {}
+        + Convert về array: const array = Array.from(students); hoặc const array = [...students];
+        + Thường là Static (không đổi), trừ trường hợp dùng element.childNodes là live
+        + Các func trả về NodeList:
+            • document.querySelectorAll(selector)
+            • document.getElementsByName(name)
+
+-------------------------------------------------------------------------------
+1. Tìm element, object DOM
+    - Các API phần tìm kiếm / di chuyển DOM
+        | API / Property                    | Công dụng                     | Mức độ dùng nhiều
+        | `getElementById()`                | tìm ID                        | ⭐⭐⭐
+        | `getElementsByClassName()`        | tìm class                     | ⭐⭐
+        | `getElementsByTagName()`          | tìm tag                       | ⭐⭐
+        | `getElementsByName()`             | tìm name                      | ⭐
+        | `querySelector()`                 | CSS selector, lấy đầu tiên    | ⭐⭐⭐
+        | `querySelectorAll()`              | CSS selector, lấy tất cả      | ⭐⭐⭐
+        | `closest()`                       | tìm ancestor                  | ⭐⭐⭐
+        | `matches()`                       | kiểm tra selector             | ⭐⭐
+        | `contains()`                      | kiểm tra quan hệ cha/con      | ⭐⭐
+        | `parentElement`                   | cha                           | ⭐⭐⭐
+        | `children`                        | các Element con               | ⭐⭐⭐
+        | `firstElementChild`               | con đầu                       | ⭐⭐
+        | `lastElementChild`                | con cuối                      | ⭐⭐
+        | `previousElementSibling`          | anh em trước                  | ⭐⭐
+        | `nextElementSibling`              | anh em sau                    | ⭐⭐
+        | `parentNode`                      | Node cha                      | ⭐
+        | `childNodes`                      | Node con                      | ⭐
+        | `firstChild` / `lastChild`        | Node đầu/cuối                 | ⭐
+        | `previousSibling` / `nextSibling` | Node anh em                   | ⭐
+
+    - getElementById()
+        + Tìm element theo thuộc tính id, trả về element hoặc null
+        + getElementById() thuộc document
+        + VD:
+            const title = document.getElementById("title");
+            console.log(title); // <h1 id="title">Student Management</h1>
+
+    - getElementsByClassName()
+        + Tìm các element theo class name, trả về HTMLCollection
+        + getElementsByClassName() thuộc document
+
+    - getElementsByTagName()
+        + Tìm các element theo tên thẻ HTML, trả về HTMLCollection
+        + getElementsByTagName() thuộc document và element
+        + VD TH thuộc element:
+            const app = document.getElementById("app");
+            const spans = app.getElementsByTagName("span");
+
+    - getElementsByName()
+        + Thường dùng với các thẻ trong Form
+        + Tìm các element theo thuộc tính name, trả về NodeList
+
+-------------------------------------------------------------------------------
+2. DOM — đọc và thay đổi Element
+    Element
+    ├── Nội dung
+    │   ├── textContent
+    │   ├── innerText
+    │   ├── innerHTML
+    │   └── outerHTML
+    │
+    ├── Attribute
+    │   ├── getAttribute()
+    │   ├── setAttribute()
+    │   ├── removeAttribute()
+    │   ├── hasAttribute()
+    │   └── toggleAttribute()
+    │
+    ├── Class
+    │   ├── className
+    │   └── classList
+    │
+    ├── Data attribute
+    │   └── dataset
+    │
+    ├── Style
+    │   ├── style
+    │   └── getComputedStyle()
+    │
+    └── Form properties
+        ├── value
+        ├── checked
+        ├── disabled
+        └── ...
+
+    - Cụm nội dung - content
+        + textContent
+            Giả sử HTML
+                <div id="app">
+                    Hello
+                    <strong>JavaScript</strong>
+                </div>
+
+            Lấy giá trị
+                const title = document.querySelector("#title");
+                console.log(title.textContent) // Hello JavaScript
+
+            Sửa giá trị
+                title.textContent = 'new content';
+                -> Sẽ replace hết nội dung bên trong, làm mất thẻ <strong>
+                -> <div id="app">new content</div>
+
+        + innerText
+            -> Phụ thuộc vào css, nếu css display: none, innerText sẽ không lấy đc giá trị
+            -> textContent thì ngược lại, không phụ thuộc vào css, nó lấy trực tiếp Text của object DOM mà không quan tâm đến css
+            Giả sử HTML
+                <div id="app">
+                    Hello
+                    <strong style="display: none">JavaScript</strong>
+                </div>
+
+                kết quả: Hello
+
+        + innerHTML
+            Giả sử html
+                <div id="app">
+                    <strong>Hello</strong>
+                </div>
+
+            Câu lệnh
+                app.innerHTML = `
+                    <h1>Students</h1>
+                    <button>Save</button>
+                `;
+
+            Kết quả:
+                <div id="app">
+                    <h1>Students</h1>
+                    <button>Save</button>
+                </div>
+
+        + outerHTML
+            -> Cũng có thể gán giá trị vào outerHTML nhưng sẽ làm thay đổi chính nó
+            Giả sử html
+                <div id="app">
+                    <strong>Hello</strong>
+                </div>
+
+            Câu lệnh
+                console.log(app.outerHTML)
+
+            Kết quả
+                <div id="app">
+                    <strong>Hello</strong>
+                </div>
+
+    - Cụm thuộc tính Attribute
+        + element.getAttribute(attributeName)
+            -> Lấy giá trị attribute của element, trả về giá trị của attr dạng string, nếu không tìm thấy trả về null
+
+        + element.setAttribute(name, value)
+            -> Set giá trị cho một attr
+
+        + bool = element.hasAttribute(name)
+            -> Kiểm tra xem có tồn tại attr
+
+        + element.removeAttribute(name)
+            -> Xóa một attr
+
+        + element.toggleAttribute(name, [force])
+            -> Thêm / Xóa một attr
+            -> force = true nghĩa là thêm attr, = false nghĩa là xóa attr
+
+        + element.attributes
+            -> Lấy một danh sách các thuộc tính attr của element
+            -> Trả về NamedNodeMap
+
+        + LƯU Ý GIỮA ATTRIBUTE VÀ PROPERTY
+            attribute
+                -> Giá trị khai báo / markup
+                -> Giả sử với thẻ input, nếu người dùng nhập một giá trị khác, giá trị getAttribute('value') vẫn KHÔNG THAY ĐỔI SO VỚI BAN ĐẦU
+
+            property
+                -> Trạng thái object DOM hiện tại
+            
+            Rất nhiều HTML attribute được browser phản ánh thành property:
+                input.id
+                input.type
+                input.placeholder
+                checkbox.checked
+                input.required
+                element.hidden
+                select.disabled
+                element.className
+
+    - Class: thao tác với class của element
+        element.classList
+            -> Trả về một DOMTokenList
+
+        add()
+            -> Thêm một class
+
+        remove()
+            -> Xóa một class
+
+        toggle()
+            -> Thêm / Xóa một class
+
+        contains()
+            -> Kiểm tra có tồn tại một class hay không
+
+        replace()
+            -> Thay thế một class
+
+        VD cách dùng:
+            element.classList.add('border');
+
+    - dataset: làm việc với các thuộc tính data-...
+        -> Giá trị của dataset luôn là string
+
+        + VD về html
+            <div
+                class="student"
+                data-id="100"
+                data-student-name="Duc"
+                data-class-id="10">
+            </div>
+
+        + mapping
+            data-id                 →   dataset.id
+            data-student-name       →   dataset.studentName
+            data-class-id           →   dataset.classId
+
+        + thao tác với dataset
+            dataset.id                  -> lấy giá trị của attr
+            dataset.name = 'Duc 123'    -> sửa giá trị của attr
+            delete dataset.name         -> xóa attr
+
+        
+    - Thao tác với style css
+        TH sử dụng các thuộc tính tiêu chuẩn
+            element.style.backgroundColor
+            element.style.fontSize
+            element.style.marginTop
+        TH custom
+            element.style.setProperty("--main-color", "red");
+
+        LƯU Ý: chỉ đọc đc inline style, không đọc đc style trong class, trong file css
+
+        Sử dụng const style = getComputedStyle(box); để lấy đc tyle cuối cùng, sau đó dùng các thuộc tính sau để chỉnh sửa
+            style.color
+            style.fontSize
+            style.display
+            style.width
+
+    - Các property Form quan trọng
+        + Input
+            input.value
+            input.type
+            input.name
+            input.placeholder
+
+            input.checked
+            input.disabled
+            input.required
+            input.readOnly
+
+            input.min
+            input.max
+            input.step
+
+            input.files
+
+        + Checkbox
+            HTML: <input type="checkbox" id="agree">
+            Attr: agree.checked -> true / false
+
+        + Radio
+            HTML: <input type="radio" name="gender" value="male">
+            Attr:
+                radio.value
+                radio.checked
+
+        + Select
+            HTML:
+                <select id="city">
+                    <option value="hn">Hà Nội</option>
+                    <option value="hcm">HCM</option>
+                </select>
+            Attr:
+                city.value
+                city.selectedIndex
+                city.options
+                city.selectedOptions
+
+        + Textarea
+            Không nên lấy dữ liệu người dùng đang nhập bằng: textarea.textContent
+            Mà nên dùng: textarea.value
+
+2. Thay đổi cấu trúc DOM
+    Tạo
+    ├── document.createElement()
+    ├── document.createTextNode()
+    └── document.createDocumentFragment()
+
+    Chèn
+    ├── append()
+    ├── appendChild()
+    ├── prepend()
+    ├── before()
+    ├── after()
+    ├── insertBefore()
+    ├── insertAdjacentElement()
+    ├── insertAdjacentText()
+    └── insertAdjacentHTML()
+
+    Thay thế
+    ├── replaceWith()
+    └── replaceChild()
+
+    Xóa
+    ├── remove()
+    └── removeChild()
+
+    Sao chép
+    └── cloneNode()
+
+    - Tạo
+        + document.createElement(localName[, options]);
+            • localName: A string that specifies the type of element to be created (e.g., 'div', 'p', 'button', 'script'). 
+                In HTML documents, this argument automatically converts to lowercase.
+            • options (Optional): An object containing configuration properties, primarily used for defining custom elements 
+                (e.g., { is: "my-custom-button" })
+            • trả về HTMLElement
+
+            -> Khi tạo một element không thể app vào 2 nơi cùng lúc
+            -> VD:
+                const student = document.createElement("div");
+                student.classList.add("student");
+                student.dataset.id = "100";
+                student.textContent = "Nguyễn Văn A";
+                document.body.append(student);
+
+        + document.createTextNode(data)
+            • data: string
+            -> Tạo note kiểu Text
+
+        + document.createDocumentFragment()
+            -> tạo ra một đối tượng vùng chứa ảo (chứa các node con) độc lập, không thuộc về cây DOM
+            -> Mục đích để tránh trình duyệt phải tính toán lại giao diện và vẽ lại trang (Reflow và Repaint),
+                Khi sử dụng createDocumentFragment, các thao tác append chỉ diễn ra trong bộ nhớ, và cần duy nhất 1 lần append vào DOM chính
+            -> VD:
+                const ul = document.getElementById("myList");
+
+                // 1. Tạo một mảnh tài liệu ảo
+                const fragment = document.createDocumentFragment();
+
+                const items = ["Mục 1", "Mục 2", "Mục 3"];
+
+                items.forEach(text => {
+                const li = document.createElement("li");
+                li.textContent = text;
+                
+                // 2. Chèn thẻ li vào Fragment (chỉ diễn ra trong bộ nhớ, cực nhanh)
+                fragment.appendChild(li);
+                });
+
+                // 3. Chèn Fragment vào DOM chính (Chỉ Reflow giao diện 1 lần duy nhất)
+                ul.appendChild(fragment);
+
+    - Chèn
+        + element.append(...param)
+            -> param có thể là object DOM, có thể là string, nếu tham số là string, nó sẽ là Text note
+            -> Trả về undefined
+            -> Chèn một hoặc các object DOM vào cuối
+
+        + element.appendChild(param)
+            -> tương tự append() nhưng appendChild() chỉ nhận 1 tham số
+            -> trả về chính tham số đó
+
+        + element.prepend(...param)
+            -> Tương tự như append nhưng chèn vào đầu
+        
+        + targetElement.before(element)
+            -> Chèn element lên trước targetElement
+
+        + targetElement.after(element)
+            -> Chèn element phía dưới targetElement
+
+        + parent.insertBefore(newNode, referenceNode)
+            -> Chèn newNode phía trước referenceNode, cả newNode và referenceNode đều là element child của parent
+            -> Nếu không truyền referenceNode, insertBefore sẽ tương tự appendChild
+
+        + targetElement.insertAdjacentElement(position, elementToInsert)
+            -> Chèn một phần tử (elementToInsert) DOM vào vị trí position so với targetElement
+            -> position có 4 giá trị sau:
+                • 'beforebegin': Chèn ngay trước phần tử mục tiêu (làm anh em/sibling).
+                • 'afterbegin': Chèn vào bên trong, ngay trước phần tử con đầu tiên của mục tiêu.
+                • 'beforeend': Chèn vào bên trong, ngay sau phần tử con cuối cùng của mục tiêu.
+                • 'afterend': Chèn ngay sau phần tử mục tiêu (làm anh em/sibling)
+
+        + element.insertAdjacentText(position, text)
+            -> Chèn một chuỗi văn bản thuần túy (plain text) vào một vị trí cụ thể so với phần tử hiện tại
+            -> position có 4 giá trị sau:
+                • 'beforebegin': Chèn ngay trước phần tử mục tiêu (làm anh em/sibling).
+                • 'afterbegin': Chèn vào bên trong, ngay trước phần tử con đầu tiên của mục tiêu.
+                • 'beforeend': Chèn vào bên trong, ngay sau phần tử con cuối cùng của mục tiêu.
+                • 'afterend': Chèn ngay sau phần tử mục tiêu (làm anh em/sibling)
+
+        + element.insertAdjacentHTML(position, text);
+            -> Chèn một chuỗi HTML vào một vị trí cụ thể xung quanh phần tử gốc mà không làm hỏng các phần tử hiện có
+            -> position có 4 giá trị sau:
+                • 'beforebegin': Chèn ngay trước phần tử mục tiêu (làm anh em/sibling).
+                • 'afterbegin': Chèn vào bên trong, ngay trước phần tử con đầu tiên của mục tiêu.
+                • 'beforeend': Chèn vào bên trong, ngay sau phần tử con cuối cùng của mục tiêu.
+                • 'afterend': Chèn ngay sau phần tử mục tiêu (làm anh em/sibling)
+    
+    - Thay thế
+        + oldElement.replaceWith(newElementOrString);
+            -> Thay thế oldElement bằng newElement
+            -> Hoặc thay thế oldElement bằng một chuỗi văn bản
+
+        + parentNode.replaceChild(newChild, oldChild)
+            -> Dùng để thay thế một phần tử con cũ bằng một phần tử con mới
+
+    - Xóa
+        + element.remove()
+            -> Xóa một element
+
+        + removeChild()
+            -> Xóa một phần tử con khỏi phần tử cha
+
+    - Sao chép
+        + newElement = element.cloneNode(deep)
+            -> Copy element
+            -> deep = false thì chỉ copy html, không copy chil bên trong
+            -> deep = true copy toàn bộ chil bên trong
+            
+    
+
