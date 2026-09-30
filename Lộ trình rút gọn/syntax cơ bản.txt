@@ -1,0 +1,81 @@
+1. if / else
+    const age = 20;
+    if (age >= 18) {
+        console.log("Adult");
+    } else if (age >= 13) {
+        console.log("Teenager");
+    } else {
+        console.log("Child");
+    }
+
+2. Toán tử 3 ngôi
+    const status = age >= 18 ? "Adult" : "Child";
+
+3. switch
+    switch (status) {
+        case "pending":
+            console.log("Pending");
+            break;
+
+        case "success":
+            console.log("Success");
+            break;
+
+        case "failed":
+            console.log("Failed");
+            break;
+
+        default:
+            console.log("Unknown");
+    }
+
+4. for
+    for (let i = 0; i < 10; i++) {
+        console.log(i);
+    }
+
+5. while
+    while (condition) {
+        // something
+    }
+
+6. do .. while
+    do {
+    } while (condition);
+
+7. break / continue
+    for (let i = 0; i < 10; i++) {
+        if (i === 3) {
+            continue;
+        }
+
+        if (i === 8) {
+            break;
+        }
+
+        console.log(i);
+    }
+
+8. for...of
+    const users = ["An", "Binh", "Cuong"];
+
+    for (const user of users) {
+        console.log(user);
+    }
+
+9. for...in
+    -> Nó duyệt property key.
+
+    const user = {
+        name: "Duc",
+        age: 30
+    };
+
+    for (const key in user) {
+        console.log(key);
+    }
+
+    Kếy quả:
+    // name
+    // age
+
