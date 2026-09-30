@@ -15,7 +15,7 @@
             const age = 17;
             const resultMsg = `Result is ${age >= 18 ? 'Active' : 'Block'}`;
 
-        + Xuống dòng
+        + Xuống  không cần \n
             const text = `
             Hello
             JavaScript

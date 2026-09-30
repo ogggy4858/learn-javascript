@@ -49,16 +49,20 @@
         shift()
 
 - Một số func khác:
-    + newAray = array1.concat(array2)       
-        -> Nối mảng array2 vào array1, trả về mảng mới
+    + concat()
+        -> Cú pháp: newAray = array.concat(array2)
+        -> Nối mảng array2 vào array, trả về mảng mới
 
-    + newAray = array1.slice(start, end)    
-        -> lấy các phần tử ở array1 để tạo ra mảng mới, lấy từ phần tử ở vị trí start, đến phần tử ngay sát phần tử end
+    + slice()
+        -> Cú pháp: newAray = array.slice(start, end)
+        -> lấy các phần tử ở array để tạo ra mảng mới, lấy từ phần tử ở vị trí start, đến phần tử ngay sát phần tử end
 
-    + newAray = numbers.slice();            
+    + slice()
+        -> Cú pháp: newAray = array.slice();
         -> Cũng là func slice nhưng không truyền tham số nào cả, chức năng copy tạo ra array mới
 
-    + splice(start, deleteCount, [...items])  
+    + splice()
+        -> Cú pháp: array.splice(start, deleteCount, [...items])
         -> Sử dụng func này để xóa / thêm / replace phần tử, func này tác động trực tiếp vào mảng gốc (mutate)
         Sử dụng để xóa phần tử:
             -> Xóa bắt đầu từ phần tử có idx = 1, và xóa 2 phần tử, trả về một mảng gồm những phần tử đã xóa
@@ -74,20 +78,25 @@
             const numbers = [10, 20, 30];
             numbers.splice(1, 1, 200);
 
-    + newAray = toSpliced(start, deleteCount, [...items])   
+    + toSpliced()
+        -> Cú pháp: newAray = array.toSpliced(start, deleteCount, [...items])  
         -> Một phiên bản khác của func splice, nhưng không tác động trực tiếp vào mảng gốc (không mutate), vì vậy nó luôn trả về một mảng mới
 
-    + bool = array.includes(element, [start]);    
+    + includes()
+        -> Cú pháp: bool = array.includes(element, [start])
         -> Kiểm tra xem có tồn tại phần tử, bắt đầu kiểm tra từ vị trí start, trả về true nếu tồn tại, false nếu không tồn tại
         -> cẩn thận khi includes với những phần tử có kiểu là object, cần phải trỏ đúng đến ô nhớ của phần tử đang tìm kiếm thì mới tìm được
 
-    + number = array.indexOf(searchElement, [fromIndex])
+    + indexOf()
+        -> Cú pháp: number = array.indexOf(searchElement, [fromIndex])
         -> Tìm kiếm phần tử trong mảng và trả về idx của phần tử đó, bắt đầu tìm kiếm từ vị trí fromIndex
 
-    + array.lastIndexOf(item, start)
+    + lastIndexOf()
+        -> Cú pháp: number = array.lastIndexOf(item, [start])
         -> Tương tự như indexOf nhưng tìm kiếm từ cuối lên
 
-    + element = array.find(arrow function)
+    + find()
+        -> Cú pháp: element = array.find(arrow function)
         -> Tìm kiếm phần tử, hữu ích trong TH các phần tử là các object
         -> Trả về undefined nếu không tìm thấy phần tử nào
         -> Chỉ trả về một phần tử nếu tìm thấy
@@ -102,26 +111,33 @@
                 x => x.id === 2
             );
 
-    + number = findIndex(arrow function)
+    + findIndex()
+        -> Cú pháp: number = array.findIndex(arrow function)
         -> Tương tự như func find() nhưng trả về vị trí của phần tử
 
     + findLast() và findLastIndex()
         -> Tương tự như find() và findIndex() nhưng tìm từ cuối lên
 
-    + bool = some(arrow function)
+    + some()
+        -> Cú pháp: bool = array.some(arrow function)
         -> Tìm kiếm xem có phần tử nào không, trả về true nếu tìm thấy phần tử, false nếu không tìm thấy phần tử
 
-    + bool = every(arrow function)
+    + every()
+        -> Cú pháp: bool = array.every(arrow function)
         -> Tất cả phần tử trong mảng có thỏa mãn điều kiện không
 
-    + forEach
-        -> Lặp qua từng phần tử
+    + forEach()
+        -> Cú pháp: array.forEach((user, index, array) => { // something });
+        -> Lặp qua từng phần tử trong mảng
         -> VD:
-        users.forEach((user, index, array) => {
-            // something
-        });
+            users.forEach((user, index, array) => {
+                // user ở đây là phần tử
+                // index của phần tử
+                // array ở đây là users
+            });
 
-    + newAray = array.map(arrow function)
+    + map()
+        -> Cú pháp: newAray = array.map(arrow function)
         -> Tạo ra mảng mới theo điều kiện return của arrow function
         -> Các phần tử là các obj, có dùng để lọc tên của các obj - phần tử thành mảng riêng
         -> Có thể dùng để format dữ liệu, ...
@@ -153,12 +169,13 @@
                 return user;
             });
 
-    + newAray = array.filter(arrow function)
+    + filter()
+        -> Cú pháp: newAray = array.filter(arrow function)
         -> Dùng để lọc phần tử, trả về một mảng mới bao gồm các phần tử thỏa mãn
         -> Khác với map, map dùng để biến đổi phần tử, còn filter là để lọc phần tử
         -> Trả về mảng rỗng nếu không filter đc phần tử nào
 
-    + reduce
+    + reduce()
         -> Cấu trúc của câu lệnh:
             array.reduce(
                 (accumulator, currentValue) => {
@@ -214,7 +231,8 @@
     + toReversed()
         -> tương đương sort() nhưng sắp xếp giảm dần và không làm mutate mảng gốc
 
-    + join(charracter)
+    + join()
+        -> Cú pháp: string = array.join(charracter)
         -> Nối các phần tử thành chuỗi, trái ngược với string.split()
     
     + flat()
